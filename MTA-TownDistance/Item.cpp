@@ -4,7 +4,6 @@
 
 #include "Item.h"
 #include <iostream>
-
 using namespace std;
 
 // Constructor
@@ -15,7 +14,6 @@ Item::Item(Node** c, int _currTown, int _destTown, int _line, int _distance, int
     line = _line;
     distance = _distance;
     color = _color;
-
 }
 
 // Destructor
@@ -23,17 +21,17 @@ Item::~Item() {
 }
 
 // Get the current town
-int Item::getCurrTown() {
+int Item::getCurrTown() const {
     return currTown;
 }
 
 // Get line
-int Item::getLine() {
+int Item::getLine() const {
     return line;
 }
 
 // Get the dest town
-int Item::getDestTown() {
+int Item::getDestTown() const {
     return destTown;
 }
 
@@ -45,4 +43,14 @@ int* Item::getColor() {
 // Set Line
 void Item::setLine(int _line) {
     line = _line;
+}
+
+// Get distance
+int Item::getDistance() const {
+    return distance;
+}
+
+// Set distance
+void Item::setDistance(int _distance) {
+    distance = _distance;
 }

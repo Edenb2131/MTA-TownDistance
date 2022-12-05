@@ -19,11 +19,8 @@ public:
     void push(Item*); // Push an element to the stack
     Item* pop(); // Pop an element from the stack
     void makeEmpty(); // Make the stack empty
-    bool isEmpty(); // Check if the stack is empty
-    bool isFull(); // Check if the stack is full
-    int getDistance();
-    void addDistance();
-    void printStack(); // Print the stack
+    bool isEmpty() const; // Check if the stack is empty
+    bool isFull() const; // Check if the stack is full
     int getTop();
 };
 

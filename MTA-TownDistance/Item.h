@@ -9,28 +9,26 @@ class Node;
 
 class Item {
 
-  Node **country;
-  int currTown;
-  int destTown;
-  int* color;
-  int line;
-
+  Node **country{};
+  int currTown{};
+  int destTown{};
+  int* color{};
+  int line{};
+  int distance = -1;
 
 public:
-    int distance = -1;
+
 
   Item() = default;
   Item(Node** c, int _currTown, int _destTown, int _line, int _distance, int* _color);
   ~Item();
-  int getCurrTown();
-  void setCurrTown(int currTown);
-  int getDestTown();
+  int getCurrTown() const;
+  int getDestTown() const;
   int* getColor();
-  void setDestTown(int destTown);
-  int getLine();
+  int getLine() const;
   void setLine(int line);
-  Node** getCountry();
-  int getDistance();
+  int getDistance() const;
+  void setDistance(int _distance);
 
 };
 

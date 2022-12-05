@@ -3,8 +3,6 @@
 //
 
 #include "Node.h"
-#include <iostream>
-using namespace std;
 
 
 Node::Node(int data):data(data),next(nullptr){}
@@ -15,19 +13,19 @@ Node::~Node() {
     delete next;
 }
 
-int Node::getData() {
+int Node::getData() const {
     return data;
 }
 
-void Node::setData(int data) {
-    this->data = data;
+void Node::setData(int _data) {
+    this->data = _data;
 }
 
 Node* Node::getNext() {
     return next;
 }
 
-void Node::setNext(Node *next) {
-    this->next = next;
+void Node::setNext(Node *_next) {
+    this->next = _next;
 }
 

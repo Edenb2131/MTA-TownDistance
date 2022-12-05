@@ -11,4 +11,6 @@ add_executable(MTA_TownDistance
         MTA-TownDistance/Node.h
         MTA-TownDistance/Item.cpp
         MTA-TownDistance/Item.h
+        MTA-TownDistance/Functions.cpp
+        MTA-TownDistance/Functions.h
         )

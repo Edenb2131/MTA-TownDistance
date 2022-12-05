@@ -16,10 +16,10 @@ public:
     Node();
     Node(int data);
     ~Node();
-    int getData();
-    void setData(int data);
+    int getData() const;
+    void setData(int _data);
     Node* getNext();
-    void setNext(Node *next);
+    void setNext(Node *_next);
 
 };
 

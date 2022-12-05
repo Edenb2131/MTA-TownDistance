@@ -48,21 +48,13 @@ void Stack::makeEmpty(){
 }
 
 // Check if the stack is empty
-bool Stack::isEmpty(){
+bool Stack::isEmpty() const{
     return top == 0;
 }
 
 // Check if the stack is full
-bool Stack::isFull(){
+bool Stack::isFull() const{
     return top == phySize;
-}
-
-// Print the stack
-void Stack::printStack(){
-    for (int i = 0; i < top; i++){
-        cout <<  "1111111 ";
-    }
-    cout << endl;
 }
 
 // Get top
