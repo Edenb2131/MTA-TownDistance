@@ -6,22 +6,57 @@
 #include <iostream>
 using namespace std;
 
+#define ABNORMAL_LEN 10000
 
 // Getting input from the user about how many towns, roads and from where to where
 void getInput(int& numOfTowns, int& numOfRoads, char* roadsBetweenTowns , int& currTown, int& destTown){
   cout << "Enter number of towns and roads:" << endl;
   cin >> numOfTowns >> numOfRoads;
+
+  // Getting the roads between the towns and checking the input is valid
+  if(numOfTowns < 1 || numOfTowns > ABNORMAL_LEN){
+    if(numOfTowns < 0)
+      cout << "Number of towns must be positive!" << endl;
+    else
+      cout << "Invalid number of towns. Enter again number of towns and roads:" << endl;
+    while(numOfTowns < 1 || numOfTowns > ABNORMAL_LEN){
+      cin >> numOfTowns >> numOfRoads;
+    }
+  }
+
+
+  // Checking if there are too many roads for the towns
+  // There cannot be more the n*(n-1)/2 roads for n towns
+  // For example: 5 towns can have 10 roads at most (5*4/2 = 10)
+  // 6 towns can have 15 roads at most (6*5/2 = 15)
+  if(numOfRoads > numOfTowns*(numOfTowns-1)/2 || numOfRoads < 0){
+    cout << "Invalid number of roads. Enter again number of towns and roads:" << endl;
+    while(numOfRoads > numOfTowns*(numOfTowns-1)/2){
+      cin >> numOfTowns >> numOfRoads;
+    }
+  }
+
   cin.ignore(); // This is to flush the buffer
 
   numOfTowns++; // This is because we want to start from 1 and not from 0
+  // There is no harm in complexity because we are not using the 0 index, so it's not a waste of memory in big numbers
 
   cout << "Enter roads between towns" << endl;
-  cin.getline(roadsBetweenTowns, LEN);
+  cin.getline(roadsBetweenTowns, LEN); // We assume that there is LEN space in the array. Can change LEN in the header file
+
+  // Checking the input of the roads between the towns and asking the user to enter again if the input is invalid
+  if(strlen(roadsBetweenTowns) >= numOfRoads*4){
+    cout << "Invalid roads. Enter again roads between towns" << endl;
+    while(strlen(roadsBetweenTowns) != numOfRoads*3){
+      cin.getline(roadsBetweenTowns, LEN); // We assume that there is LEN space in the array. Can change LEN in the header file
+    }
+  }
+
 
   cout << "Enter current town and destination town:" << endl;
   cin >> currTown >> destTown;
   while(currTown < 1 || currTown > numOfTowns || destTown < 1 || destTown > numOfTowns){
-    cout << "Invalid towns! Please enter valid towns:" << endl;
+    cout << "Invalid towns! Please enter current town and destination town again:" << endl;
     cin >> currTown >> destTown;
   }
 
@@ -29,18 +64,18 @@ void getInput(int& numOfTowns, int& numOfRoads, char* roadsBetweenTowns , int& c
 }
 
 // Creating a structure for the towns
-void createCountryStructure(char* roadsBetweenTowns, Node** country){
-  int size = strlen(roadsBetweenTowns);
+void createCountryStructure(char* roadsBetweenTowns, Node** country) {
+  int size = strlen(roadsBetweenTowns); // Getting the size of the roadsBetweenTowns array
 
-  for(int i = 0 ; i<size ; i+=4){
+  for (int i = 0; i < size; i += 4) {
     bool isInTheNodeArray = false;
-    int num1 = roadsBetweenTowns[i] - '0';
-    int num2 = roadsBetweenTowns[i+2] - '0';
+    int num1 = roadsBetweenTowns[i] - '0'; // Getting the first town
+    int num2 = roadsBetweenTowns[i + 2] - '0'; // Getting the second town
 
     // Checking if the town is already in the list
     Node *temp = country[num1];
-    while(temp != nullptr){
-      if(temp->getData() == num2){
+    while (temp != nullptr) {
+      if (temp->getData() == num2) {
         isInTheNodeArray = true;
 
         break;
@@ -48,11 +83,12 @@ void createCountryStructure(char* roadsBetweenTowns, Node** country){
       temp = temp->getNext();
     }
 
-    if(!isInTheNodeArray) { // Meaning that the town is not in the list
-      Node *town1 = new Node(num1);
-      Node *town2 = new Node(num2);
+    if (!isInTheNodeArray) { // Meaning that the town is not in the list
 
-      if (country[num1] == nullptr)
+      Node *town1 = new Node(num1); // Creating a new node for the first town
+      Node *town2 = new Node(num2); // Creating a new node for the second town
+
+      if (country[num1] == nullptr)  // If the list is empty we just add the new node (Only first case)
         country[num1] = town2;
       else {
         Node *temp = country[num1];
@@ -62,7 +98,7 @@ void createCountryStructure(char* roadsBetweenTowns, Node** country){
         temp->setNext(town2);
       }
 
-      if (country[num2] == nullptr)
+      if (country[num2] == nullptr) // If the list is empty we just add the new node (Only first case)
         country[num2] = town1;
       else {
         Node *temp = country[num2];
@@ -73,7 +109,6 @@ void createCountryStructure(char* roadsBetweenTowns, Node** country){
       }
     }
   }
-
 }
 
 // Printing the country structure
@@ -91,7 +126,7 @@ void printCountry(Node** country, int numOfTowns) {
 }
 
 // The recursive function that checks if there is a path between the towns
-int townDistance(Node **country, int currTown, int destTown,int* color){
+int townDistanceRec(Node **country, int currTown, int destTown,int* color){
 
   color[currTown] = 1; //turn town into black = visited
 
@@ -110,7 +145,7 @@ int townDistance(Node **country, int currTown, int destTown,int* color){
       curr = curr->getNext();
     }
 
-    if(!flag)
+    if(!flag) // Meaning that there is no town that has not been visited
       return -1;
 
     else{ // If there is a town that has not been visited
@@ -118,7 +153,7 @@ int townDistance(Node **country, int currTown, int destTown,int* color){
       while (curr != nullptr) {
         if (color[curr->getData()] == 0) {
           // Calculate the distance from the current town to the destination town
-          int distance = townDistance(country, curr->getData(), destTown, color);
+          int distance = townDistanceRec(country, curr->getData(), destTown, color);
           if (distance != -1)
             return distance + 1;
         }
@@ -136,32 +171,28 @@ int townDistanceIterative(Node **country, int currTown, int destTown, int* color
   Stack stack;
   stack.push(curr);
   color[currTown] = 1; //turn town into black = visited
-//  int distance = 0;
 
   while(!stack.isEmpty()){
     curr = stack.pop();
-    if(curr->getLine() == START){
-      if(curr->getCurrTown() == curr->getDestTown()){
+    if(curr->getLine() == START){ // If we are at the start of the town
+      if(curr->getCurrTown() == curr->getDestTown()){ // If we are at the destination town
         return curr->getDistance();
       }
       else{
         curr->setLine(AFTER);
         color[curr->getCurrTown()] = 1;//turn town into black = visited
         stack.push(curr);
-
-//        next = new Item(country, curr->getCurrTown(), curr->getDestTown(), START, curr->getColor());
-//        stack.push(next);
       }
     }
-    else{
+    else {
       if(curr->getLine() == AFTER){
-//        color[curr->getCurrTown()] = 1; //turn town into black = visited
-//        curr->setLine(AFTER);
-//        stack.push(curr);
 
         Node* temp = country[curr->getCurrTown()];
+
+        // This stack is to reverse the order of the towns so at the end we will get the right order
         Stack toReverseStack;
-        while(temp != nullptr){
+
+        while(temp != nullptr){ // Pushing the towns to the stack and counting the number of towns in distance
           if(color[temp->getData()] == 0){
 
             Item *newItem = new Item(country, temp->getData(), curr->getDestTown(), START, curr->getDistance() + 1, color);

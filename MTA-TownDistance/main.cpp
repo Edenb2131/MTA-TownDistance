@@ -34,10 +34,10 @@ int main() {
   //print country structure
   //printCountry(country, numOfTowns);
 
-  int res1 = townDistance(country, currTown, destTown, color);
+  int res1 = townDistanceRec(country, currTown, destTown, color);
   cout << "The recursion result is: " << res1 << endl;
 
-  // Reset the color array
+  // Reset the color array for the iterative function
   for(int i = 0 ; i<numOfTowns ; i++){
     color[i] = 0;
   }

@@ -21,7 +21,6 @@ public:
     void makeEmpty(); // Make the stack empty
     bool isEmpty() const; // Check if the stack is empty
     bool isFull() const; // Check if the stack is full
-    int getTop();
 };
 
 

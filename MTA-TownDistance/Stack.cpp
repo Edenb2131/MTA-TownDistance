@@ -56,8 +56,3 @@ bool Stack::isEmpty() const{
 bool Stack::isFull() const{
     return top == phySize;
 }
-
-// Get top
-int Stack::getTop() {
-  return top;
-}

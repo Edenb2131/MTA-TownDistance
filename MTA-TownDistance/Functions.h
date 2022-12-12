@@ -27,7 +27,7 @@ void printCountry(Node** country, int numOfTowns);
 //// The required functions for the program ////
 
 // The recursive function that checks if there is a path between the towns
-int townDistance(Node **country, int currTown, int destTown,int* color);
+int townDistanceRec(Node **country, int currTown, int destTown,int* color);
 
 // iterative function that checks if there is a path between the towns using stack
 int townDistanceIterative(Node **country, int currTown, int destTown, int* color);
