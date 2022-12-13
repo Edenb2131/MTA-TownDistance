@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-#define ABNORMAL_LEN 10000
+#define ABNORMAL_LEN 100000
 
 // Getting input from the user about how many towns, roads and from where to where
 void getInput(int& numOfTowns, int& numOfRoads, char* roadsBetweenTowns , int& currTown, int& destTown){
@@ -23,7 +23,6 @@ void getInput(int& numOfTowns, int& numOfRoads, char* roadsBetweenTowns , int& c
       cin >> numOfTowns >> numOfRoads;
     }
   }
-
 
   // Checking if there are too many roads for the towns
   // There cannot be more the n*(n-1)/2 roads for n towns
@@ -44,14 +43,6 @@ void getInput(int& numOfTowns, int& numOfRoads, char* roadsBetweenTowns , int& c
   cout << "Enter roads between towns" << endl;
   cin.getline(roadsBetweenTowns, LEN); // We assume that there is LEN space in the array. Can change LEN in the header file
 
-  // Checking the input of the roads between the towns and asking the user to enter again if the input is invalid
-  if(strlen(roadsBetweenTowns) >= numOfRoads*4){
-    cout << "Invalid roads. Enter again roads between towns" << endl;
-    while(strlen(roadsBetweenTowns) != numOfRoads*3){
-      cin.getline(roadsBetweenTowns, LEN); // We assume that there is LEN space in the array. Can change LEN in the header file
-    }
-  }
-
 
   cout << "Enter current town and destination town:" << endl;
   cin >> currTown >> destTown;
@@ -66,11 +57,13 @@ void getInput(int& numOfTowns, int& numOfRoads, char* roadsBetweenTowns , int& c
 // Creating a structure for the towns
 void createCountryStructure(char* roadsBetweenTowns, Node** country) {
   int size = strlen(roadsBetweenTowns); // Getting the size of the roadsBetweenTowns array
+  int i = 0;
 
-  for (int i = 0; i < size; i += 4) {
+  for(i = 0; i < size; i++){
     bool isInTheNodeArray = false;
     int num1 = roadsBetweenTowns[i] - '0'; // Getting the first town
     int num2 = roadsBetweenTowns[i + 2] - '0'; // Getting the second town
+
 
     // Checking if the town is already in the list
     Node *temp = country[num1];
