@@ -57,17 +57,33 @@ void getInput(int& numOfTowns, int& numOfRoads, char* roadsBetweenTowns , int& c
 // Creating a structure for the towns
 bool createCountryStructure(char* roadsBetweenTowns, Node** country, int numOfTowns, int numOfRoads){
   int i = 0;
+  int tokenIndex = 0;
   bool isInTheNodeArray = false;
   char *token = strtok(roadsBetweenTowns, " ");
 
   for(i = 0; i < numOfRoads ; i++){
     isInTheNodeArray = false;
+    int num1, num2;
+    if(token != NULL){
+      num1 = atoi(token); // Getting the first town
+      tokenIndex++;
+    }
 
-    int num1 = atoi(token); // Getting the first town
 
     token = strtok(NULL, " ");
 
-    int num2 = atoi(token); // Getting the second town
+    if(token != NULL){
+      num2 = atoi(token); // Getting the second town
+      tokenIndex++;
+    }
+
+
+
+
+    if(tokenIndex % 2 != 0){
+      cout << " There are in-correct number of roads." << endl;
+      return false;
+    }
 
     if(num1 > numOfTowns || num2 > numOfTowns){
       cout << "Invalid input. one of the roads includes a connection with a non-existent city. \n" << endl;
