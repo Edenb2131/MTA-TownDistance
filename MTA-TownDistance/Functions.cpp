@@ -79,12 +79,13 @@ bool createCountryStructure(char* roadsBetweenTowns, Node** country, int numOfTo
     }
 
 
-
+    // Checking to see if were entered pairs ( else there could not build a road and that's an error!)
     if(tokenIndex % 2 != 0){
       cout << " There are in-correct number of roads." << endl;
       return false;
     }
 
+    // Checking if the towns are in the range
     if(num1 > numOfTowns || num2 > numOfTowns){
       cout << "Invalid input. one of the roads includes a connection with a non-existent city. \n" << endl;
       return false;
