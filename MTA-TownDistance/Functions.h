@@ -18,7 +18,7 @@
 void getInput(int& numOfTowns, int& numOfRoads, char* roadsBetweenTowns , int& currTown, int& destTown);
 
 // Creating a structure for the towns
-void createCountryStructure(char* roadsBetweenTowns, Node** country);
+bool createCountryStructure(char* roadsBetweenTowns, Node** country, int numOfTowns, int numOfRoads);
 
 // Printing the country structure
 void printCountry(Node** country, int numOfTowns);

@@ -42,7 +42,7 @@ void getInput(int& numOfTowns, int& numOfRoads, char* roadsBetweenTowns , int& c
 
   cout << "Enter roads between towns" << endl;
   cin.getline(roadsBetweenTowns, LEN); // We assume that there is LEN space in the array. Can change LEN in the header file
-
+  // The check for the input will be in the function that creates the country structure
 
   cout << "Enter current town and destination town:" << endl;
   cin >> currTown >> destTown;
@@ -55,25 +55,34 @@ void getInput(int& numOfTowns, int& numOfRoads, char* roadsBetweenTowns , int& c
 }
 
 // Creating a structure for the towns
-void createCountryStructure(char* roadsBetweenTowns, Node** country) {
-  int size = strlen(roadsBetweenTowns); // Getting the size of the roadsBetweenTowns array
+bool createCountryStructure(char* roadsBetweenTowns, Node** country, int numOfTowns, int numOfRoads){
   int i = 0;
+  bool isInTheNodeArray = false;
+  char *token = strtok(roadsBetweenTowns, " ");
 
-  for(i = 0; i < size; i++){
-    bool isInTheNodeArray = false;
-    int num1 = roadsBetweenTowns[i] - '0'; // Getting the first town
-    int num2 = roadsBetweenTowns[i + 2] - '0'; // Getting the second town
+  for(i = 0; i < numOfRoads ; i++){
+    isInTheNodeArray = false;
 
+    int num1 = atoi(token); // Getting the first town
+
+    token = strtok(NULL, " ");
+
+    int num2 = atoi(token); // Getting the second town
+
+    if(num1 > numOfTowns || num2 > numOfTowns){
+      cout << "Invalid input. one of the roads includes a connection with a non-existent city. \n" << endl;
+      return false;
+    }
 
     // Checking if the town is already in the list
-    Node *temp = country[num1];
-    while (temp != nullptr) {
-      if (temp->getData() == num2) {
+    Node *temp1 = country[num1];
+    while (temp1 != nullptr) {
+      if (temp1->getData() == num2) {
         isInTheNodeArray = true;
-
+        cout << "Invalid input - One of the roads is duplicated. That roads are not included! \n" << endl;
         break;
       }
-      temp = temp->getNext();
+      temp1 = temp1->getNext();
     }
 
     if (!isInTheNodeArray) { // Meaning that the town is not in the list
@@ -101,7 +110,9 @@ void createCountryStructure(char* roadsBetweenTowns, Node** country) {
         temp->setNext(town1);
       }
     }
+    token = strtok(NULL, " ");
   }
+  return true;
 }
 
 // Printing the country structure

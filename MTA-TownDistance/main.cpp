@@ -25,26 +25,33 @@ int main() {
   }
 
   // building country structure
-  createCountryStructure(roadsBetweenTowns, country);
+  bool countryStructure = createCountryStructure(roadsBetweenTowns, country, numOfTowns , numOfRoads) ;
 
-  //sorting country structure nodes - merge sort
-  for(int i = 1 ; i<numOfTowns ; i++)
-    mergeSort(&country[i]);
+  if(countryStructure) {
 
-  //print country structure
-  //printCountry(country, numOfTowns);
 
-  int res1 = townDistanceRec(country, currTown, destTown, color);
-  cout << "The recursion result is: " << res1 << endl;
+    //sorting country structure nodes - merge sort
+    for (int i = 1; i < numOfTowns; i++)
+      mergeSort(&country[i]);
 
-  // Reset the color array for the iterative function
-  for(int i = 0 ; i<numOfTowns ; i++){
-    color[i] = 0;
+    //print country structure
+    //printCountry(country, numOfTowns);
+
+    int res1 = townDistanceRec(country, currTown, destTown, color);
+    cout << "The recursion result is: " << res1 << endl;
+
+    // Reset the color array for the iterative function
+    for (int i = 0; i < numOfTowns; i++) {
+      color[i] = 0;
+    }
+
+    int res2 = townDistanceIterative(country, currTown, destTown, color);
+    cout << "The iterative result is: " << res2 << endl;
+
   }
-
-  int res2 = townDistanceIterative(country, currTown, destTown, color);
-  cout << "The iterative result is: " << res2 << endl;
-
+  else{
+    cout << "The country structure was not built. Run again." << endl;
+  }
 
   for(int i = 0; i<numOfTowns ; i++){
     delete country[i];
