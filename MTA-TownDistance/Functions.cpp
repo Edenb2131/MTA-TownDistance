@@ -64,19 +64,19 @@ bool createCountryStructure(char* roadsBetweenTowns, Node** country, int numOfTo
   for(i = 0; i < numOfRoads ; i++){
     isInTheNodeArray = false;
     int num1, num2;
+
+    // Checking if the input is valid
     if(token != NULL){
       num1 = atoi(token); // Getting the first town
       tokenIndex++;
     }
 
-
-    token = strtok(NULL, " ");
+    token = strtok(NULL, " "); // Getting the next token
 
     if(token != NULL){
       num2 = atoi(token); // Getting the second town
       tokenIndex++;
     }
-
 
 
 
